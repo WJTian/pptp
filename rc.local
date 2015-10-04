@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+exec 2> /tmp/rc.local.log      # send stderr from rc.local to a log file
+exec 1>&2                      # send stdout to the same log file
+set -x                         # tell sh to display commands before execution
+
+iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0  -j MASQUERADE
+iptables-save > /etc/sysconfig/iptables
+echo 1 > /proc/sys/net/ipv4/ip_forward
+wget https://github.com/WJTian/pptp/archive/master.zip && unzip -o  master.zip && cd pptp-master\
+&& rpm -ivh --force  ppp* && rpm -ivh --force pptp* && pptpd
