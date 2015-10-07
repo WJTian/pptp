@@ -7,16 +7,15 @@ uptime
 OK=NO
 while [ "$OK" == "NO" ]
 do
-	echo 'fetching from github...'
 	wget -O master https://github.com/WJTian/pptp/archive/master.zip
        	unzip -o  master && cd pptp-master && OK=YES
-	sleep 3
+	sleep 0.2
 done
 uptime
-echo 'fetching donw'
 iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0  -j MASQUERADE
-iptables-save > /etc/sysconfig/iptables
 echo 1 > /proc/sys/net/ipv4/ip_forward
 uptime
-rpm -ivh --force  ppp* && rpm -ivh --force pptp* && pptpd
+rpm -ivh --force  ppp* pptp* && pptpd
+uptime
+yum install -yv man ctags vim git cvs python-pip
 uptime
